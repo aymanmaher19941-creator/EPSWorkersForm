@@ -1,0 +1,151 @@
+﻿<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>EPS Workers Registration</title>
+
+  <style>
+    body { font-family: 'Arial', sans-serif; background: linear-gradient(135deg, #74ebd5, #ACB6E5); margin: 0; height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+    .bubble { position: absolute; border-radius: 50%; opacity: 0.25; animation: rise 18s infinite linear; z-index: 1; }
+    @keyframes rise { 0% { transform: translateY(100vh) scale(1); } 100% { transform: translateY(-100vh) scale(0.6); } }
+    .container { position: relative; z-index: 2; background: rgba(255,255,255,0.97); padding: 28px 36px; border-radius: 18px; box-shadow: 0 18px 40px rgba(0,0,0,0.15); max-width: 720px; width: 94%; overflow: hidden; }
+    h2 { text-align: center; margin: 0 0 18px; color: #222; }
+    .step { display: none; }
+    .step.active { display: block; }
+    .input-field { margin-bottom: 14px; }
+    label { display: block; font-weight: 700; color: #444; margin-bottom: 6px; }
+    input[type=text], input[type=number], input[type=email], input[type=date], textarea, input[type=file] { width: 100%; padding: 12px; border-radius: 9px; border: 1px solid #d6dbe6; font-size: 15px; box-sizing: border-box; }
+    textarea { min-height: 80px; resize: vertical; }
+    .gender-btns { display: flex; gap: 14px; }
+    .gender-btns button { flex: 1; padding: 12px; border-radius: 10px; border: 1px solid #d6dbe6; background: #f6f8fb; cursor: pointer; font-weight: 600; }
+    .gender-btns button.selected { background: linear-gradient(to right, #00f2fe, #4facfe); color: #fff; box-shadow: 0 8px 20px rgba(0,0,0,0.08); }
+    .nav-buttons { display: flex; justify-content: space-between; margin-top: 18px; }
+    .nav-buttons button { padding: 12px 18px; border: none; border-radius: 10px; background: linear-gradient(to right, #00f2fe, #4facfe); color: #fff; font-weight: 700; cursor: pointer; }
+    .nav-buttons button:disabled { opacity: 0.5; cursor: not-allowed; }
+    #msg { text-align: center; margin-top: 12px; font-weight: 700; }
+  </style>
+</head>
+
+<body>
+
+  <script>
+    for (let i = 0; i < 14; i++) {
+      const b = document.createElement('div');
+      b.className = 'bubble';
+      const size = 30 + Math.random() * 120;
+      b.style.width = b.style.height = size + 'px';
+      b.style.left = Math.random() * 95 + 'vw';
+      b.style.animationDuration = (10 + Math.random() * 20) + 's';
+      b.style.background = `rgba(${50 + Math.random()*200}, ${120 + Math.random()*100}, ${120 + Math.random()*100}, 0.25)`;
+      document.body.appendChild(b);
+    }
+  </script>
+
+  <div class="container">
+    <h2>نموذج تسجيل عمال النظافة - EPS</h2>
+    <form id="workerForm">
+
+      <div class="step active" id="step1">
+        <div class="input-field"><label>الاسم الكامل</label><input type="text" name="FullName" required></div>
+        <div class="input-field"><label>العمر</label><input type="number" name="Age" min="16"></div>
+        <div class="input-field"><label>رقم الهاتف</label><input type="text" name="Phone"></div>
+        <div class="input-field"><label>التاريخ</label><input type="date" name="Date"></div>
+        <div class="input-field"><label>النوع</label>
+          <div class="gender-btns">
+            <button type="button" data-value="Male">ذكر</button>
+            <button type="button" data-value="Female">أنثى</button>
+          </div>
+          <input type="hidden" name="Gender" required>
+        </div>
+        <div class="nav-buttons"><div></div><button type="button" id="next1">التالي</button></div>
+      </div>
+
+      <div class="step" id="step2">
+        <div class="input-field"><label>رقم البطاقة</label><input type="text" name="IDNumber"></div>
+        <div class="input-field"><label>الوظيفة المرشّح إليها</label><input type="text" name="Job"></div>
+        <div class="input-field"><label>البريد الإلكتروني</label><input type="email" name="Email"></div>
+        <div class="input-field"><label>العنوان</label><input type="text" name="Address"></div>
+        <div class="nav-buttons"><button type="button" id="prev2">السابق</button><button type="button" id="next2">التالي</button></div>
+      </div>
+
+      <div class="step" id="step3">
+        <div class="input-field"><label>الخبرة (اختياري)</label><textarea name="Experience"></textarea></div>
+        <div class="input-field"><label>ملاحظات (اختياري)</label><textarea name="Notes"></textarea></div>
+        <div class="input-field"><label>صورة وجه البطاقة (اختياري)</label><input type="file" name="IDFront" accept="image/*"></div>
+        <div class="input-field"><label>صورة ظهر البطاقة (اختياري)</label><input type="file" name="IDBack" accept="image/*"></div>
+        <div class="nav-buttons"><button type="button" id="prev3">السابق</button><button type="submit">إرسال</button></div>
+      </div>
+
+    </form>
+    <p id="msg"></p>
+  </div>
+
+  <script>
+    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyYFC67CN76d-LCWwtG9pB-w5kya_5wEvE-sFgY024ANw3WHTI7-eubfYXrOZ0KN99eEg/exec";
+
+    // اختيار النوع
+    document.querySelectorAll('.gender-btns button').forEach(b => {
+      b.addEventListener('click', () => {
+        document.querySelectorAll('.gender-btns button').forEach(x => x.classList.remove('selected'));
+        b.classList.add('selected');
+        document.querySelector('input[name="Gender"]').value = b.dataset.value;
+      });
+    });
+
+    // التنقل بين المراحل
+    const step1 = document.getElementById('step1');
+    const step2 = document.getElementById('step2');
+    const step3 = document.getElementById('step3');
+
+    document.getElementById('next1').addEventListener('click', () => { step1.classList.remove('active'); step2.classList.add('active'); });
+    document.getElementById('prev2').addEventListener('click', () => { step2.classList.remove('active'); step1.classList.add('active'); });
+    document.getElementById('next2').addEventListener('click', () => { step2.classList.remove('active'); step3.classList.add('active'); });
+    document.getElementById('prev3').addEventListener('click', () => { step3.classList.remove('active'); step2.classList.add('active'); });
+
+    // تحويل الملفات Base64
+    function fileToBase64(file) {
+      return new Promise((resolve, reject) => {
+        if (!file) return resolve("");
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = e => reject(e);
+        reader.readAsDataURL(file);
+      });
+    }
+
+    // إرسال النموذج
+    document.getElementById('workerForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const msg = document.getElementById('msg');
+      msg.style.color = "#333";
+      msg.textContent = "جاري الإرسال...";
+      const form = e.target;
+      const fd = new FormData(form);
+      const frontFile = form.querySelector('input[name="IDFront"]').files[0];
+      const backFile  = form.querySelector('input[name="IDBack"]').files[0];
+      if (frontFile) fd.set('IDFront', await fileToBase64(frontFile));
+      if (backFile)  fd.set('IDBack',  await fileToBase64(backFile));
+
+      try {
+        const res = await fetch(WEB_APP_URL, { method: "POST", body: fd });
+        const text = await res.text();
+        if (text.toLowerCase().includes("success")) {
+          msg.style.color = "green";
+          msg.textContent = "✔ تم الحفظ بنجاح";
+          form.reset();
+          step3.classList.remove('active');
+          step1.classList.add('active');
+        } else {
+          msg.style.color = "red";
+          msg.textContent = "فشل الإرسال: " + text;
+        }
+      } catch (err) {
+        msg.style.color = "red";
+        msg.textContent = "حدث خطأ: " + err.message;
+      }
+    });
+  </script>
+
+</body>
+</html>
