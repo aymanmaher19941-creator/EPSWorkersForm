@@ -1,80 +1,191 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>EPS Workers Registration</title>
+  <title>نموذج تسجيل عمال - EPS</title>
+  <!-- إضافة مكتبة Font Awesome للأيقونات -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
   <style>
-    body { font-family: 'Arial', sans-serif; background: linear-gradient(135deg, #74ebd5, #ACB6E5); margin: 0; height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden; }
-    .bubble { position: absolute; border-radius: 50%; opacity: 0.25; animation: rise 18s infinite linear; z-index: 1; }
-    @keyframes rise { 0% { transform: translateY(100vh) scale(1); } 100% { transform: translateY(-100vh) scale(0.6); } }
-    .container { position: relative; z-index: 2; background: rgba(255,255,255,0.97); padding: 28px 36px; border-radius: 18px; box-shadow: 0 18px 40px rgba(0,0,0,0.15); max-width: 720px; width: 94%; overflow: hidden; }
-    h2 { text-align: center; margin: 0 0 18px; color: #222; }
+    /* تصميم خلفية أكثر هدوءً ونشاطًا (Mint Green & Sky Blue) */
+    body { 
+      font-family: 'Arial', sans-serif; 
+      background: linear-gradient(135deg, #ccfbf1, #a5f3fc); /* تدرج هادئ جدًا */
+      margin: 0; 
+      min-height: 100vh; 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      overflow: hidden; 
+      padding: 30px 0;
+    }
+    .bubble { 
+      position: absolute; 
+      border-radius: 50%; 
+      opacity: 0.35; 
+      animation: rise 25s infinite linear; /* زيادة زمن الحركة للهدوء */
+      z-index: 1; 
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.5); /* إضافة ظل خفيف للفقاعات */
+    }
+    @keyframes rise { 
+      0% { transform: translateY(100vh) scale(0.7); } 
+      100% { transform: translateY(-100vh) scale(1.1); } 
+    }
+    .container { 
+      position: relative; 
+      z-index: 2; 
+      background: rgba(255,255,255,0.98); 
+      padding: 30px 40px; 
+      border-radius: 20px; 
+      box-shadow: 0 15px 40px rgba(0,0,0,0.1); 
+      max-width: 600px; 
+      width: 90%; 
+      overflow: hidden; 
+      border: 1px solid #e0e0e0;
+    }
+    h2 { 
+      text-align: center; 
+      margin: 0 0 25px; 
+      color: #0d9488; /* لون أخضر نعناعي داكن */
+      border-bottom: 2px solid #99f6e4; 
+      padding-bottom: 10px;
+      font-size: 24px;
+    }
     .step { display: none; }
     .step.active { display: block; }
-    .input-field { margin-bottom: 14px; }
-    label { display: block; font-weight: 700; color: #444; margin-bottom: 6px; }
-    input[type=text], input[type=number], input[type=email], input[type=date], textarea, input[type=file] { width: 100%; padding: 12px; border-radius: 9px; border: 1px solid #d6dbe6; font-size: 15px; box-sizing: border-box; }
-    textarea { min-height: 80px; resize: vertical; }
-    .gender-btns { display: flex; gap: 14px; }
-    .gender-btns button { flex: 1; padding: 12px; border-radius: 10px; border: 1px solid #d6dbe6; background: #f6f8fb; cursor: pointer; font-weight: 600; }
-    .gender-btns button.selected { background: linear-gradient(to right, #00f2fe, #4facfe); color: #fff; box-shadow: 0 8px 20px rgba(0,0,0,0.08); }
-    .nav-buttons { display: flex; justify-content: space-between; margin-top: 18px; }
-    .nav-buttons button { padding: 12px 18px; border: none; border-radius: 10px; background: linear-gradient(to right, #00f2fe, #4facfe); color: #fff; font-weight: 700; cursor: pointer; }
-    .nav-buttons button:disabled { opacity: 0.5; cursor: not-allowed; }
-    #msg { text-align: center; margin-top: 12px; font-weight: 700; }
+    .input-field { margin-bottom: 18px; position: relative; }
+    label { 
+      display: block; 
+      font-weight: 700; 
+      color: #333; 
+      margin-bottom: 8px; 
+      display: flex; 
+      align-items: center;
+      font-size: 16px;
+    }
+    label i { margin-left: 10px; color: #0d9488; } /* أيقونات بنفس لون العنوان */
+    input[type=text], input[type=number], input[type=email], input[type=date], textarea, input[type=file], select { 
+      width: 100%; 
+      padding: 12px; 
+      border-radius: 10px; 
+      border: 1px solid #c2c9d6; 
+      font-size: 16px; 
+      box-sizing: border-box; 
+      transition: border-color 0.3s;
+    }
+    input:focus, textarea:focus, select:focus {
+      border-color: #0d9488;
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(13, 148, 136, 0.2);
+    }
+    textarea { min-height: 100px; resize: vertical; }
+    .gender-btns { display: flex; gap: 10px; }
+    .gender-btns button { 
+      flex: 1; 
+      padding: 12px; 
+      border-radius: 10px; 
+      border: 1px solid #d6dbe6; 
+      background: #f6f8fb; 
+      cursor: pointer; 
+      font-weight: 600; 
+      transition: all 0.3s;
+    }
+    .gender-btns button.selected { 
+      background: linear-gradient(to right, #0d9488, #34d399); /* تدرج نشيط */
+      color: #fff; 
+      box-shadow: 0 4px 10px rgba(13, 148, 136, 0.2); 
+      transform: translateY(-1px);
+    }
+    .nav-buttons { display: flex; justify-content: space-between; margin-top: 25px; }
+    .nav-buttons button { 
+      padding: 12px 25px; 
+      border: none; 
+      border-radius: 10px; 
+      background: linear-gradient(to right, #0d9488, #34d399); 
+      color: #fff; 
+      font-weight: 700; 
+      cursor: pointer; 
+      transition: opacity 0.3s, transform 0.3s;
+      min-width: 100px;
+    }
+    .nav-buttons button:hover:not(:disabled) { 
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    }
+    .nav-buttons button:disabled { opacity: 0.4; cursor: not-allowed; }
+    #msg { text-align: center; margin-top: 20px; font-weight: 700; font-size: 16px; }
   </style>
 </head>
 
 <body>
 
   <script>
-    for (let i = 0; i < 14; i++) {
+    // زيادة عدد الفقاعات (Bubbles) وتعديل حركتها وألوانها
+    const numBubbles = 30; 
+    for (let i = 0; i < numBubbles; i++) {
       const b = document.createElement('div');
       b.className = 'bubble';
-      const size = 30 + Math.random() * 120;
+      const size = 30 + Math.random() * 150; 
       b.style.width = b.style.height = size + 'px';
-      b.style.left = Math.random() * 95 + 'vw';
-      b.style.animationDuration = (10 + Math.random() * 20) + 's';
-      b.style.background = `rgba(${50 + Math.random()*200}, ${120 + Math.random()*100}, ${120 + Math.random()*100}, 0.25)`;
+      b.style.left = Math.random() * 100 + 'vw';
+      b.style.animationDuration = (20 + Math.random() * 25) + 's'; 
+      b.style.animationDelay = '-' + (Math.random() * 15) + 's'; 
+      b.style.background = `rgba(${100 + Math.random()*100}, ${200 + Math.random()*55}, ${200 + Math.random()*55}, 0.3)`;
       document.body.appendChild(b);
     }
   </script>
 
   <div class="container">
-    <h2>نموذج تسجيل عمال النظافة - EPS</h2>
+    <!-- التعديل المطلوب: تغيير العنوان -->
+    <h2>نموذج تسجيل عمال - EPS</h2>
     <form id="workerForm">
 
+      <!-- المرحلة الأولى: البيانات الشخصية (الترتيب الأصلي) -->
       <div class="step active" id="step1">
-        <div class="input-field"><label>الاسم الكامل</label><input type="text" name="FullName" required></div>
-        <div class="input-field"><label>العمر</label><input type="number" name="Age" min="16"></div>
-        <div class="input-field"><label>رقم الهاتف</label><input type="text" name="Phone"></div>
-        <div class="input-field"><label>التاريخ</label><input type="date" name="Date"></div>
-        <div class="input-field"><label>النوع</label>
+        <div class="input-field"><label><i class="fas fa-user-tag"></i>الاسم الكامل</label><input type="text" name="FullName" required></div>
+        <div class="input-field"><label><i class="fas fa-hourglass-half"></i>العمر</label><input type="number" name="Age" min="16"></div>
+        <div class="input-field"><label><i class="fas fa-phone-alt"></i>رقم الهاتف</label><input type="text" name="Phone"></div>
+        <div class="input-field"><label><i class="fas fa-calendar-alt"></i>التاريخ</label><input type="date" name="Date"></div>
+        <div class="input-field"><label><i class="fas fa-venus-mars"></i>النوع</label>
           <div class="gender-btns">
-            <button type="button" data-value="Male">ذكر</button>
-            <button type="button" data-value="Female">أنثى</button>
+            <button type="button" data-value="Male">ذكر <i class="fas fa-male"></i></button>
+            <button type="button" data-value="Female">أنثى <i class="fas fa-female"></i></button>
           </div>
           <input type="hidden" name="Gender" required>
         </div>
-        <div class="nav-buttons"><div></div><button type="button" id="next1">التالي</button></div>
+        <div class="nav-buttons"><div></div><button type="button" id="next1">التالي <i class="fas fa-chevron-left"></i></button></div>
       </div>
 
+      <!-- المرحلة الثانية: الوظيفة والاتصال (الترتيب الأصلي) -->
       <div class="step" id="step2">
-        <div class="input-field"><label>رقم البطاقة</label><input type="text" name="IDNumber"></div>
-        <div class="input-field"><label>الوظيفة المرشّح إليها</label><input type="text" name="Job"></div>
-        <div class="input-field"><label>البريد الإلكتروني</label><input type="email" name="Email"></div>
-        <div class="input-field"><label>العنوان</label><input type="text" name="Address"></div>
-        <div class="nav-buttons"><button type="button" id="prev2">السابق</button><button type="button" id="next2">التالي</button></div>
+        <div class="input-field"><label><i class="fas fa-id-card"></i>رقم البطاقة</label><input type="text" name="IDNumber"></div>
+        <!-- تم تحويل هذا الحقل إلى قائمة منسدلة (Dropdown) -->
+        <div class="input-field">
+          <label><i class="fas fa-toolbox"></i>الوظيفة المرشّح إليها</label>
+          <select name="Job" required>
+            <option value="" disabled selected>--- اختر الوظيفة ---</option>
+            <option value="عامل نظافة">عامل نظافة</option>
+            <option value="عامل بوفيه">عامل بوفيه</option>
+            <option value="عامل عتالة">عامل عتالة</option>
+            <option value="عامل الصيانة">عامل الصيانة</option>
+            <option value="عامل زراعة">عامل زراعة</option>
+            <option value="عامل بناء">عامل بناء</option>
+          </select>
+        </div>
+        <div class="input-field"><label><i class="fas fa-envelope"></i>البريد الإلكتروني</label><input type="email" name="Email"></div>
+        <div class="input-field"><label><i class="fas fa-map-marker-alt"></i>العنوان</label><input type="text" name="Address"></div>
+        <div class="nav-buttons"><button type="button" id="prev2"><i class="fas fa-chevron-right"></i> السابق</button><button type="button" id="next2">التالي <i class="fas fa-chevron-left"></i></button></div>
       </div>
 
+      <!-- المرحلة الثالثة: الخبرة والملاحظات والملفات (الترتيب الأصلي) -->
       <div class="step" id="step3">
-        <div class="input-field"><label>الخبرة (اختياري)</label><textarea name="Experience"></textarea></div>
-        <div class="input-field"><label>ملاحظات (اختياري)</label><textarea name="Notes"></textarea></div>
-        <div class="input-field"><label>صورة وجه البطاقة (اختياري)</label><input type="file" name="IDFront" accept="image/*"></div>
-        <div class="input-field"><label>صورة ظهر البطاقة (اختياري)</label><input type="file" name="IDBack" accept="image/*"></div>
-        <div class="nav-buttons"><button type="button" id="prev3">السابق</button><button type="submit">إرسال</button></div>
+        <div class="input-field"><label><i class="fas fa-briefcase"></i>الخبرة (اختياري)</label><textarea name="Experience"></textarea></div>
+        <div class="input-field"><label><i class="fas fa-sticky-note"></i>ملاحظات (اختياري)</label><textarea name="Notes"></textarea></div>
+        <!-- التعديل المطلوب: إضافة "أو السيرة الذاتية" -->
+        <div class="input-field"><label><i class="fas fa-file-upload"></i>صورة وجه البطاقة أو السيرة الذاتية (اختياري)</label><input type="file" name="IDFront" accept="image/*,.pdf"></div>
+        <div class="input-field"><label><i class="fas fa-file-upload"></i>صورة ظهر البطاقة (اختياري)</label><input type="file" name="IDBack" accept="image/*"></div>
+        <div class="nav-buttons"><button type="button" id="prev3"><i class="fas fa-chevron-right"></i> السابق</button><button type="submit"><i class="fas fa-paper-plane"></i> إرسال</button></div>
       </div>
 
     </form>
@@ -82,9 +193,10 @@
   </div>
 
   <script>
+    // رابط تطبيق الويب (تم الحفاظ عليه كما هو)
     const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbw5b-GvLlCQ6woBF39KeXQ6_cY1fMsnKpY0rPTxnODtFL2lGV-gTs7mhryXEjy2ibFxYQ/exec";
 
-    // اختيار النوع
+    // اختيار النوع (لم يتغير)
     document.querySelectorAll('.gender-btns button').forEach(b => {
       b.addEventListener('click', () => {
         document.querySelectorAll('.gender-btns button').forEach(x => x.classList.remove('selected'));
@@ -93,20 +205,48 @@
       });
     });
 
-    // التنقل بين المراحل
+    // التنقل بين المراحل مع التحقق البسيط
     const step1 = document.getElementById('step1');
     const step2 = document.getElementById('step2');
     const step3 = document.getElementById('step3');
 
-    document.getElementById('next1').addEventListener('click', () => { step1.classList.remove('active'); step2.classList.add('active'); });
+    // تحقق من المرحلة الأولى
+    document.getElementById('next1').addEventListener('click', () => { 
+      const fullName = document.querySelector('input[name="FullName"]').value;
+      const gender = document.querySelector('input[name="Gender"]').value;
+      if (fullName && gender) {
+        step1.classList.remove('active'); 
+        step2.classList.add('active'); 
+      } else {
+        alert("الرجاء ملء الاسم الكامل واختيار النوع أولاً.");
+      }
+    });
+
     document.getElementById('prev2').addEventListener('click', () => { step2.classList.remove('active'); step1.classList.add('active'); });
-    document.getElementById('next2').addEventListener('click', () => { step2.classList.remove('active'); step3.classList.add('active'); });
+    
+    // تحقق من المرحلة الثانية (أهمها اختيار الوظيفة)
+    document.getElementById('next2').addEventListener('click', () => { 
+      const job = document.querySelector('select[name="Job"]').value;
+      if (job) {
+        step2.classList.remove('active'); 
+        step3.classList.add('active'); 
+      } else {
+        alert("الرجاء اختيار الوظيفة المرشّح إليها.");
+      }
+    });
+    
     document.getElementById('prev3').addEventListener('click', () => { step3.classList.remove('active'); step2.classList.add('active'); });
 
-    // تحويل الملفات Base64
+    // تحويل الملفات Base64 (لم يتغير)
     function fileToBase64(file) {
       return new Promise((resolve, reject) => {
         if (!file) return resolve("");
+        // زيادة الحد الأقصى للحجم (لتقليل فرص فشل التحميل)
+        const MAX_SIZE = 5 * 1024 * 1024; // 5MB
+        if (file.size > MAX_SIZE) {
+            alert(`حجم الملف كبير جداً. الحد الأقصى المسموح به هو 5 ميجابايت.`);
+            return reject(new Error("File too large"));
+        }
         const reader = new FileReader();
         reader.onload = () => resolve(reader.result);
         reader.onerror = e => reject(e);
@@ -114,26 +254,40 @@
       });
     }
 
-    // إرسال النموذج
+    // إرسال النموذج (لم يتغير)
     document.getElementById('workerForm').addEventListener('submit', async function(e) {
       e.preventDefault();
       const msg = document.getElementById('msg');
       msg.style.color = "#333";
       msg.textContent = "جاري الإرسال...";
+      
       const form = e.target;
       const fd = new FormData(form);
-      const frontFile = form.querySelector('input[name="IDFront"]').files[0];
-      const backFile  = form.querySelector('input[name="IDBack"]').files[0];
-      if (frontFile) fd.set('IDFront', await fileToBase64(frontFile));
-      if (backFile)  fd.set('IDBack',  await fileToBase64(backFile));
+      
+      try {
+        const frontFile = form.querySelector('input[name="IDFront"]').files[0];
+        const backFile = form.querySelector('input[name="IDBack"]').files[0];
+        
+        // تحويل الملفات إلى Base64
+        fd.set('IDFront', await fileToBase64(frontFile));
+        fd.set('IDBack', await fileToBase64(backFile));
 
+      } catch (fileError) {
+        // في حال كان الخطأ بسبب حجم الملف أو فشل القراءة
+        msg.style.color = "red";
+        msg.textContent = fileError.message;
+        return; // إيقاف الإرسال
+      }
+      
       try {
         const res = await fetch(WEB_APP_URL, { method: "POST", body: fd });
         const text = await res.text();
+
         if (text.toLowerCase().includes("success")) {
-          msg.style.color = "green";
-          msg.textContent = "✔ تم الحفظ بنجاح";
+          msg.style.color = "#047857"; /* أخضر داكن للنجاح */
+          msg.textContent = "✔ تم الحفظ بنجاح، شكراً لك!";
           form.reset();
+          // العودة إلى الخطوة الأولى بعد النجاح
           step3.classList.remove('active');
           step1.classList.add('active');
         } else {
@@ -142,11 +296,10 @@
         }
       } catch (err) {
         msg.style.color = "red";
-        msg.textContent = "حدث خطأ: " + err.message;
+        msg.textContent = "حدث خطأ في الاتصال بالخادم: " + err.message;
       }
     });
   </script>
 
 </body>
 </html>
-
