@@ -138,7 +138,7 @@
 
   <div class="container">
     <!-- التعديل المطلوب: تغيير العنوان -->
-    <h2>نموذج تسجيل عمال - EPS</h2>
+    <h2>نموذج توظيف - EPS</h2>
     <form id="workerForm">
 
       <!-- المرحلة الأولى: البيانات الشخصية (الترتيب الأصلي) -->
@@ -160,17 +160,59 @@
       <!-- المرحلة الثانية: الوظيفة والاتصال (الترتيب الأصلي) -->
       <div class="step" id="step2">
         <div class="input-field"><label><i class="fas fa-id-card"></i>رقم البطاقة</label><input type="text" name="IDNumber"></div>
-        <!-- تم تحويل هذا الحقل إلى قائمة منسدلة (Dropdown) -->
+        <!-- تم تحديث هذا الحقل ليشمل جميع الوظائف المطلوبة -->
         <div class="input-field">
           <label><i class="fas fa-toolbox"></i>الوظيفة المرشّح إليها</label>
           <select name="Job" required>
             <option value="" disabled selected>--- اختر الوظيفة ---</option>
             <option value="عامل نظافة">عامل نظافة</option>
             <option value="عامل بوفيه">عامل بوفيه</option>
-            <option value="عامل عتالة">عامل عتالة</option>
-            <option value="عامل الصيانة">عامل الصيانة</option>
-            <option value="عامل زراعة">عامل زراعة</option>
-            <option value="عامل بناء">عامل بناء</option>
+            <option value="مشرف نظافة">مشرف نظافة</option>
+            <option value="مشرف بوفيه">مشرف بوفيه</option>
+            <option value="مدير موقع">مدير موقع</option>
+            <option value="مدير منطقة">مدير منطقة</option>
+            <option value="مدير تشغيل">مدير تشغيل</option>
+            <option value="مدير توظيف">مدير توظيف</option>
+            <option value="مسئول توظيف">مسئول توظيف</option>
+            <option value="شيف">شيف</option>
+            <option value="مساعد شيف">مساعد شيف</option>
+            <option value="فنى مكافحة الحشرات والتعقيم">فنى مكافحة الحشرات والتعقيم</option>
+            <option value="مهندس مكافحة الحشرات والتعقيم">مهندس مكافحة الحشرات والتعقيم</option>
+            <option value="فنى صيانه">فنى صيانه</option>
+            <option value="عتال">عتال</option>
+            <option value="كول سنتر">كول سنتر</option>
+            <option value="مدخل بيانات">مدخل بيانات</option>
+            <option value="محاسب">محاسب</option>
+            <option value="مدير مالى">مدير مالى</option>
+            <option value="شئون الموظفين">شئون الموظفين</option>
+            <option value="شئون قانونيه">شئون قانونيه</option>
+            <option value="شئون اداريه">شئون اداريه</option>
+            <option value="مندوب">مندوب</option>
+            <option value="علاقات عامة">علاقات عامة</option>
+            <option value="سيلز اوت دور">سيلز اوت دور</option>
+            <option value="سيلز ان دور">سيلز ان دور</option>
+            <option value="تسويق الإلكتروني">تسويق الإلكتروني</option>
+            <option value="استقبال">استقبال</option>
+            <option value="سكرتارية">سكرتارية</option>
+            <option value="سائقين">سائقين</option>
+            <option value="مخازن">مخازن</option>
+            <option value="مشتريات">مشتريات</option>
+            <option value="عامل انتاج">عامل انتاج</option>
+            <option value="خدمات معاونه">خدمات معاونه</option>
+            <option value="إداريين">إداريين</option>
+            <option value="فنى صيانه هود">فنى صيانه هود</option>
+            <option value="فنى صيانه نباتات">فنى صيانه نباتات</option>
+            <option value="فنى غسيل السجاد و المفروشات">فنى غسيل السجاد و المفروشات</option>
+            <option value="فنى غسيل واجهات المباني">فنى غسيل واجهات المباني</option>
+            <option value="استيور">استيور</option>
+            <option value="فنى جلى رخام">فنى جلى رخام</option>
+            <option value="محصلين">محصلين</option>
+            <option value="دليفري">دليفري</option>
+            <option value="كاشير">كاشير</option>
+            <option value="تنظيف ماكينات الصراف الآلى">تنظيف ماكينات الصراف الآلى</option>
+            <option value="جارسون">جارسون</option>
+            <option value="باريستا">باريستا</option>
+            <option value="اوفيس بوى">اوفيس بوى</option>
           </select>
         </div>
         <div class="input-field"><label><i class="fas fa-envelope"></i>البريد الإلكتروني</label><input type="email" name="Email"></div>
