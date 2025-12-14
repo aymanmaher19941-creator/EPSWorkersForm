@@ -1329,7 +1329,7 @@
                         <option value="">-- اختر الخدمة --</option>
                         <option value="cleaning">خدمات النظافة العامة</option>
                         <option value="buffet">خدمات البوفيه</option>
-                        <option value="facades">تنظيف واجهات المبنى</option>
+                        <option value="facade">تنظيف واجهات المبنى</option>
                         <option value="pest">مكافحة الحشرات والقوارض</option>
                         <option value="licenses">تراخيص السيارات</option>
                         <option value="sanitization">التعقيم والتطهير</option>
@@ -1354,14 +1354,13 @@
                         <div class="service-tab active" data-tab="cleaning-tools">الأدوات</div>
                         <div class="service-tab" data-tab="cleaning-materials">الخامات</div>
                         <div class="service-tab" data-tab="cleaning-equipment">المعدات</div>
-                        <div class="service-tab" data-tab="cleaning-only">النظافة فقط</div>
                     </div>
                     
                     <div class="tab-content active" id="cleaning-tools">
                         <button type="button" class="btn btn-primary add-item-btn" onclick="addCustomItem('cleaningToolsTable')">
                             <i class="fas fa-plus"></i> إضافة أداة جديدة
                         </button>
-                        <table class="items-table">
+                        <table class="items-table" id="cleaningToolsTable">
                             <thead>
                                 <tr>
                                     <th>اسم الأداة</th>
@@ -1370,8 +1369,8 @@
                                     <th>إجراءات</th>
                                 </tr>
                             </thead>
-                            <tbody id="cleaningToolsTable">
-                                <!-- Cleaning tools will be populated by JavaScript -->
+                            <tbody>
+                                <!-- ستملأ بواسطة الجافاسكريبت -->
                             </tbody>
                         </table>
                     </div>
@@ -1380,7 +1379,7 @@
                         <button type="button" class="btn btn-primary add-item-btn" onclick="addCustomItem('cleaningMaterialsTable')">
                             <i class="fas fa-plus"></i> إضافة خامة جديدة
                         </button>
-                        <table class="items-table">
+                        <table class="items-table" id="cleaningMaterialsTable">
                             <thead>
                                 <tr>
                                     <th>اسم الخامة</th>
@@ -1389,8 +1388,8 @@
                                     <th>إجراءات</th>
                                 </tr>
                             </thead>
-                            <tbody id="cleaningMaterialsTable">
-                                <!-- Cleaning materials will be populated by JavaScript -->
+                            <tbody>
+                                <!-- ستملأ بواسطة الجافاسكريبت -->
                             </tbody>
                         </table>
                     </div>
@@ -1399,7 +1398,7 @@
                         <button type="button" class="btn btn-primary add-item-btn" onclick="addCustomItem('cleaningEquipmentTable')">
                             <i class="fas fa-plus"></i> إضافة معدة جديدة
                         </button>
-                        <table class="items-table">
+                        <table class="items-table" id="cleaningEquipmentTable">
                             <thead>
                                 <tr>
                                     <th>اسم المعدة</th>
@@ -1408,22 +1407,10 @@
                                     <th>إجراءات</th>
                                 </tr>
                             </thead>
-                            <tbody id="cleaningEquipmentTable">
-                                <!-- Cleaning equipment will be populated by JavaScript -->
+                            <tbody>
+                                <!-- ستملأ بواسطة الجافاسكريبت -->
                             </tbody>
                         </table>
-                    </div>
-                    
-                    <div class="tab-content" id="cleaning-only">
-                        <div style="text-align: center; padding: 40px 20px;">
-                            <i class="fas fa-broom" style="font-size: 4rem; color: var(--primary); margin-bottom: 20px;"></i>
-                            <h3 style="color: var(--primary); margin-bottom: 15px;">خدمة النظافة فقط</h3>
-                            <p style="color: var(--gray); max-width: 500px; margin: 0 auto;">هذه الخدمة تشمل النظافة العامة بدون توفير أدوات أو معدات أو خامات.</p>
-                            <div style="margin-top: 30px;">
-                                <label style="display: block; margin-bottom: 10px; font-weight: 600;">عدد أيام الخدمة</label>
-                                <input type="number" id="cleaningDays" class="form-control" style="width: 150px; margin: 0 auto;" min="1" value="1">
-                            </div>
-                        </div>
                     </div>
                 </div>
                 
@@ -1449,7 +1436,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <!-- Initial row will be added by JavaScript -->
+                                <!-- ستملأ بواسطة الجافاسكريبت -->
                             </tbody>
                         </table>
                     </div>
@@ -1468,7 +1455,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <!-- Initial row will be added by JavaScript -->
+                                <!-- ستملأ بواسطة الجافاسكريبت -->
                             </tbody>
                         </table>
                     </div>
@@ -1487,7 +1474,53 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <!-- Initial row will be added by JavaScript -->
+                                <!-- ستملأ بواسطة الجافاسكريبت -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <!-- Facade Service Details -->
+                <div class="items-section" id="facadeItems">
+                    <div class="service-tabs">
+                        <div class="service-tab active" data-tab="facade-materials">خامات الواجهات</div>
+                        <div class="service-tab" data-tab="facade-equipment">معدات الواجهات</div>
+                    </div>
+                    
+                    <div class="tab-content active" id="facade-materials">
+                        <button type="button" class="btn btn-primary add-item-btn" onclick="addCustomItem('facadeMaterialsTable')">
+                            <i class="fas fa-plus"></i> إضافة خامة جديدة
+                        </button>
+                        <table class="items-table" id="facadeMaterialsTable">
+                            <thead>
+                                <tr>
+                                    <th>اسم الخامة</th>
+                                    <th>العدد</th>
+                                    <th>الوحدة</th>
+                                    <th>إجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- ستملأ بواسطة الجافاسكريبت -->
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="tab-content" id="facade-equipment">
+                        <button type="button" class="btn btn-primary add-item-btn" onclick="addCustomItem('facadeEquipmentTable')">
+                            <i class="fas fa-plus"></i> إضافة معدة جديدة
+                        </button>
+                        <table class="items-table" id="facadeEquipmentTable">
+                            <thead>
+                                <tr>
+                                    <th>اسم المعدة</th>
+                                    <th>العدد</th>
+                                    <th>الوحدة</th>
+                                    <th>إجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- ستملأ بواسطة الجافاسكريبت -->
                             </tbody>
                         </table>
                     </div>
@@ -1538,17 +1571,17 @@
                 </div>
             </div>
             <div class="copyright">
-                <p>© 2023 نظام معاينات EPS. جميع الحقوق محفوظة.</p>
+                <p>© 2024 نظام معاينات EPS. جميع الحقوق محفوظة.</p>
             </div>
         </div>
     </footer>
-    
+
     <script>
         // بيانات التطبيق
         const services = [
             { id: 'cleaning', name: 'خدمات النظافة العامة', icon: 'fas fa-broom', description: 'تنظيف شامل للمباني والمرافق' },
             { id: 'buffet', name: 'خدمات البوفيه', icon: 'fas fa-utensils', description: 'توفير خدمات الطعام والشراب' },
-            { id: 'facades', name: 'تنظيف واجهات المبنى', icon: 'fas fa-building', description: 'تنظيف الواجهات الزجاجية والحجرية' },
+            { id: 'facade', name: 'تنظيف واجهات المبنى', icon: 'fas fa-building', description: 'تنظيف الواجهات الزجاجية والحجرية' },
             { id: 'pest', name: 'مكافحة الحشرات والقوارض', icon: 'fas fa-bug', description: 'خدمات المكافحة المتكاملة' },
             { id: 'licenses', name: 'تراخيص السيارات', icon: 'fas fa-car', description: 'خدمات تراخيص وفك حجز السيارات' },
             { id: 'sanitization', name: 'التعقيم والتطهير', icon: 'fas fa-hand-sparkles', description: 'تعقيم شامل للمرافق' },
@@ -1704,6 +1737,10 @@
             addInitialBuffetRow('buffetMaterialsTable');
             addInitialBuffetRow('buffetEquipmentTable');
             
+            // إنشاء صفوف أولية للواجهات
+            addInitialFacadeRow('facadeMaterialsTable');
+            addInitialFacadeRow('facadeEquipmentTable');
+            
             // إضافة المستمعين للأحداث
             setupEventListeners();
             
@@ -1712,6 +1749,9 @@
             
             // إضافة مستمعين لأيقونات الوجبات والتنقلات
             setupIconSelection();
+            
+            // إضافة مستمع للأزرار في جداول البنود
+            setupTableButtons();
         });
 
         // إعداد مستمعي الأحداث لأيقونات الاختيار
@@ -1747,11 +1787,12 @@
 
         // تعبئة جداول النظافة
         function populateCleaningTable(tableId, items) {
-            const tableBody = document.getElementById(tableId);
+            const tableBody = document.getElementById(tableId).querySelector('tbody');
             tableBody.innerHTML = '';
             
             items.forEach(item => {
                 const row = document.createElement('tr');
+                row.className = 'item-row';
                 row.innerHTML = `
                     <td>
                         <div class="item-name">
@@ -1765,10 +1806,10 @@
                     <td><input type="number" class="quantity-input" min="0" value="0" onchange="saveServiceData()"></td>
                     <td>
                         <select class="unit-select" onchange="saveServiceData()">
-                            <option>قطعة</option>
-                            <option>زوج</option>
-                            <option>طقم</option>
-                            <option>كرتونة</option>
+                            <option value="قطعة">قطعة</option>
+                            <option value="زوج">زوج</option>
+                            <option value="طقم">طقم</option>
+                            <option value="كرتونة">كرتونة</option>
                         </select>
                     </td>
                     <td>
@@ -1779,20 +1820,31 @@
                 `;
                 tableBody.appendChild(row);
             });
-            
-            // إضافة مستمعي الأحداث لأزرار الحذف
-            tableBody.querySelectorAll('.remove-row').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    this.closest('tr').remove();
-                    saveServiceData();
-                });
-            });
         }
 
         // إضافة صف أولي للبوفيه
         function addInitialBuffetRow(tableId) {
             const tableBody = document.querySelector(`#${tableId} tbody`);
             addCustomItem(tableId, true);
+        }
+
+        // إضافة صف أولي للواجهات
+        function addInitialFacadeRow(tableId) {
+            const tableBody = document.querySelector(`#${tableId} tbody`);
+            addCustomItem(tableId, true);
+        }
+
+        // إعداد أزرار الجداول
+        function setupTableButtons() {
+            document.addEventListener('click', function(e) {
+                if (e.target.closest('.remove-row')) {
+                    const row = e.target.closest('tr');
+                    if (row) {
+                        row.remove();
+                        saveServiceData();
+                    }
+                }
+            });
         }
 
         // إعداد مستمعي الأحداث
@@ -1960,9 +2012,10 @@
         function addCustomItem(tableId, isInitial = false) {
             const tableBody = document.querySelector(`#${tableId} tbody`);
             const newRow = document.createElement('tr');
+            newRow.className = 'item-row';
             
             newRow.innerHTML = `
-                <td><input type="text" class="form-control" placeholder="أدخل اسم ${getItemType(tableId)}" ${isInitial ? 'value="' + getDefaultItemName(tableId) + '"' : ''} onchange="saveServiceData()"></td>
+                <td><input type="text" class="form-control item-name-input" placeholder="أدخل اسم ${getItemType(tableId)}" ${isInitial ? 'value="' + getDefaultItemName(tableId) + '"' : ''} onchange="saveServiceData()"></td>
                 <td><input type="number" class="quantity-input" min="1" value="1" onchange="saveServiceData()"></td>
                 <td>
                     <select class="unit-select" onchange="saveServiceData()">
@@ -1973,12 +2026,6 @@
             `;
             
             tableBody.appendChild(newRow);
-            
-            // إضافة مستمع حدث لحذف الصف
-            newRow.querySelector('.remove-row').addEventListener('click', function() {
-                this.closest('tr').remove();
-                saveServiceData();
-            });
         }
 
         // الحصول على نوع العنصر بناءً على معرف الجدول
@@ -1994,6 +2041,8 @@
             if (tableId === 'buffetToolsTable') return 'شوك وسكاكين';
             if (tableId === 'buffetMaterialsTable') return 'قهوة سريعة الذوبان';
             if (tableId === 'buffetEquipmentTable') return 'ماكينة قهوة';
+            if (tableId === 'facadeMaterialsTable') return 'مادة تنظيف زجاج';
+            if (tableId === 'facadeEquipmentTable') return 'سقالة متحركة';
             return 'عنصر جديد';
         }
 
@@ -2001,19 +2050,19 @@
         function getUnitOptions(tableId) {
             if (tableId.includes('Materials')) {
                 return `
-                    <option>كيلو</option>
-                    <option>لتر</option>
-                    <option>علبة</option>
-                    <option>كرتونة</option>
-                    <option>قطعة</option>
+                    <option value="كيلو">كيلو</option>
+                    <option value="لتر">لتر</option>
+                    <option value="علبة">علبة</option>
+                    <option value="كرتونة">كرتونة</option>
+                    <option value="قطعة">قطعة</option>
                 `;
             } else {
                 return `
-                    <option>قطعة</option>
-                    <option>زوج</option>
-                    <option>طقم</option>
-                    <option>كرتونة</option>
-                    <option>مجموعة</option>
+                    <option value="قطعة">قطعة</option>
+                    <option value="زوج">زوج</option>
+                    <option value="طقم">طقم</option>
+                    <option value="كرتونة">كرتونة</option>
+                    <option value="مجموعة">مجموعة</option>
                 `;
             }
         }
@@ -2146,19 +2195,12 @@
             // عرض قسم الخدمة المختارة
             if (serviceId === 'cleaning') {
                 document.getElementById('cleaningItems').classList.add('active');
-                
-                // تحميل البيانات المحفوظة إذا كانت موجودة
-                loadServiceData('cleaning');
             } else if (serviceId === 'buffet') {
                 document.getElementById('buffetItems').classList.add('active');
-                
-                // تحميل البيانات المحفوظة إذا كانت موجودة
-                loadServiceData('buffet');
+            } else if (serviceId === 'facade') {
+                document.getElementById('facadeItems').classList.add('active');
             } else if (serviceId) {
                 document.getElementById('otherItems').classList.add('active');
-                
-                // تحميل البيانات المحفوظة إذا كانت موجودة
-                loadServiceData(serviceId);
             }
         }
 
@@ -2166,80 +2208,211 @@
         function saveServiceData() {
             if (!currentService) return;
             
-            if (currentService === 'cleaning') {
-                // حفظ بيانات النظافة
-                serviceData[currentService] = {
-                    type: 'cleaning',
-                    tools: getTableData('cleaningToolsTable'),
-                    materials: getTableData('cleaningMaterialsTable'),
-                    equipment: getTableData('cleaningEquipmentTable'),
-                    cleaningDays: document.getElementById('cleaningDays').value || 1
-                };
-            } else if (currentService === 'buffet') {
-                // حفظ بيانات البوفيه
-                serviceData[currentService] = {
-                    type: 'buffet',
-                    tools: getTableData('buffetToolsTable'),
-                    materials: getTableData('buffetMaterialsTable'),
-                    equipment: getTableData('buffetEquipmentTable')
-                };
-            } else if (currentService) {
-                // حفظ بيانات الخدمات الأخرى
-                serviceData[currentService] = {
-                    type: currentService,
-                    description: document.getElementById('serviceDescription').value,
-                    requirements: document.getElementById('serviceRequirements').value
-                };
-            }
+            serviceData[currentService] = collectServiceData(currentService);
         }
 
-        // تحميل بيانات الخدمة المحفوظة
-        function loadServiceData(serviceId) {
-            if (!serviceData[serviceId]) return;
-            
-            const data = serviceData[serviceId];
-            
+        // الحصول على بيانات الخدمة
+        function collectServiceData(serviceId) {
             if (serviceId === 'cleaning') {
-                // تحميل بيانات النظافة
-                if (data.cleaningDays) {
-                    document.getElementById('cleaningDays').value = data.cleaningDays;
-                }
-                
-                // ملاحظة: في تطبيق حقيقي، ستحتاج إلى دالة لتحميل البيانات في الجداول
+                return {
+                    type: 'cleaning',
+                    materials: getTableData('cleaningMaterialsTable'),
+                    tools: getTableData('cleaningToolsTable'),
+                    equipment: getTableData('cleaningEquipmentTable')
+                };
             } else if (serviceId === 'buffet') {
-                // تحميل بيانات البوفيه
-                // ملاحظة: في تطبيق حقيقي، ستحتاج إلى دالة لتحميل البيانات في الجداول
+                return {
+                    type: 'buffet',
+                    materials: getTableData('buffetMaterialsTable'),
+                    tools: getTableData('buffetToolsTable'),
+                    equipment: getTableData('buffetEquipmentTable')
+                };
+            } else if (serviceId === 'facade') {
+                return {
+                    type: 'facade',
+                    materials: getTableData('facadeMaterialsTable'),
+                    equipment: getTableData('facadeEquipmentTable')
+                };
             } else {
-                // تحميل بيانات الخدمات الأخرى
-                if (data.description) {
-                    document.getElementById('serviceDescription').value = data.description;
-                }
-                if (data.requirements) {
-                    document.getElementById('serviceRequirements').value = data.requirements;
-                }
+                return {
+                    type: serviceId,
+                    description: document.getElementById('serviceDescription').value || '',
+                    requirements: document.getElementById('serviceRequirements').value || ''
+                };
             }
         }
 
         // الحصول على بيانات الجدول
         function getTableData(tableId) {
-            const rows = document.querySelectorAll(`#${tableId} tr`);
-            const data = [];
+            const items = [];
+            const rows = document.querySelectorAll(`#${tableId} .item-row`);
             
             rows.forEach(row => {
-                const nameInput = row.querySelector('input[type="text"]');
-                const quantityInput = row.querySelector('.quantity-input');
+                const nameInput = row.querySelector('.item-name-input, .item-name div');
+                const qtyInput = row.querySelector('.quantity-input');
                 const unitSelect = row.querySelector('.unit-select');
                 
-                if (nameInput && quantityInput && unitSelect) {
-                    data.push({
-                        name: nameInput.value,
-                        quantity: quantityInput.value,
-                        unit: unitSelect.value
+                let name = '';
+                if (nameInput.classList.contains('item-name-input')) {
+                    name = nameInput.value.trim();
+                } else {
+                    // للجداول المملوءة مسبقاً
+                    const nameDiv = nameInput.querySelector('div:first-child');
+                    name = nameDiv ? nameDiv.textContent.trim() : '';
+                }
+                
+                const qty = parseFloat(qtyInput.value) || 0;
+                const unit = unitSelect ? unitSelect.value : 'قطعة';
+                
+                if (name && qty > 0) {
+                    items.push({
+                        name: name,
+                        qty: qty,
+                        unit: unit
                     });
                 }
             });
             
-            return data;
+            return items;
+        }
+
+        // الحصول على بيانات العمالة للوردية
+        function getShiftWorkforce(shift) {
+            const maleWorkers = parseInt(document.querySelector(`[data-shift="${shift}"].male-workers`).value) || 0;
+            const femaleWorkers = parseInt(document.querySelector(`[data-shift="${shift}"].female-workers`).value) || 0;
+            const maleSupervisors = parseInt(document.querySelector(`[data-shift="${shift}"].male-supervisors`).value) || 0;
+            const femaleSupervisors = parseInt(document.querySelector(`[data-shift="${shift}"].female-supervisors`).value) || 0;
+            
+            return {
+                maleWorkers: maleWorkers,
+                femaleWorkers: femaleWorkers,
+                maleSupervisors: maleSupervisors,
+                femaleSupervisors: femaleSupervisors,
+                total: maleWorkers + femaleWorkers + maleSupervisors + femaleSupervisors
+            };
+        }
+
+        // تجميع جميع بيانات الخدمات
+        function collectAllServicesData() {
+            const services = {};
+            
+            // تنظيف
+            const cleaningData = collectServiceData('cleaning');
+            if (cleaningData.materials.length > 0 || cleaningData.tools.length > 0 || cleaningData.equipment.length > 0) {
+                services.cleaning = cleaningData;
+            }
+            
+            // بوفيه
+            const buffetData = collectServiceData('buffet');
+            if (buffetData.materials.length > 0 || buffetData.tools.length > 0 || buffetData.equipment.length > 0) {
+                services.buffet = buffetData;
+            }
+            
+            // واجهات
+            const facadeData = collectServiceData('facade');
+            if (facadeData.materials.length > 0 || facadeData.equipment.length > 0) {
+                services.facade = facadeData;
+            }
+            
+            // الخدمات الأخرى
+            const serviceDropdown = document.getElementById('serviceDropdown');
+            const selectedService = serviceDropdown.value;
+            if (selectedService && selectedService !== 'cleaning' && selectedService !== 'buffet' && selectedService !== 'facade') {
+                const otherData = collectServiceData(selectedService);
+                if (otherData.description || otherData.requirements) {
+                    services[selectedService] = otherData;
+                }
+            }
+            
+            return services;
+        }
+
+        // دالة الإرسال الرئيسية
+        function submitForm() {
+            const submitBtn = document.getElementById('submitForm');
+            const originalBtnText = submitBtn.innerHTML;
+            
+            // عرض حالة التحميل
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الإرسال...';
+            submitBtn.disabled = true;
+            
+            try {
+                // 1. تجميع البيانات من النموذج
+                const formData = {
+                    generalInfo: {
+                        establishmentName: document.getElementById('establishmentName').value || "غير محدد",
+                        establishmentAddress: document.getElementById('establishmentAddress').value || "",
+                        responsiblePerson: document.getElementById('responsiblePerson').value || "",
+                        responsiblePhone: document.getElementById('responsiblePhone').value || "",
+                        inspectorName: document.getElementById('inspectorName').value || "",
+                        inspectionDate: document.getElementById('autoDate').textContent,
+                        location: document.getElementById('autoLocation').textContent
+                    },
+                    schedule: {
+                        workDays: document.getElementById('workDays').value || 1,
+                        totalWorkforce: document.getElementById('totalWorkforce').textContent || "0",
+                        morningShift: { workforce: getShiftWorkforce('morning') },
+                        eveningShift: { workforce: getShiftWorkforce('evening') },
+                        nightShift: { workforce: getShiftWorkforce('night') },
+                        meal: selectedMeal || "none",
+                        transportation: selectedTransportation || "none"
+                    },
+                    services: collectAllServicesData()
+                };
+                
+                console.log("Form Data Prepared:", formData);
+                
+                // 2. رابط Google Apps Script - ضع رابطك هنا
+                const scriptURL = 'https://script.google.com/macros/s/AKfycby7zTL4yb1VsHF8zK8gqY41m_KifABMziky9RIvIJBrFDWPpGDvYAR0vPI0doNAMviv/exec';
+                
+                // 3. إرسال البيانات
+                fetch(scriptURL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData),
+                    redirect: 'follow'
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.text();
+                })
+                .then(result => {
+                    console.log("Server Response:", result);
+                    
+                    try {
+                        const data = JSON.parse(result);
+                        if (data.success) {
+                            alert(`✅ تم إرسال المعاينة بنجاح!\n\nتم إنشاء ورقة جديدة باسم:\n"${formData.generalInfo.establishmentName}"\n\nرقم المعاينة: EPS-${new Date().getTime()}`);
+                            resetForm();
+                        } else {
+                            alert(`⚠️ حدث خطأ: ${data.message || 'غير معروف'}`);
+                        }
+                    } catch (e) {
+                        // إذا لم يكن الرد JSON، نفترض النجاح
+                        alert(`✅ تم إرسال المعاينة بنجاح!\n\nتم إنشاء ورقة جديدة باسم:\n"${formData.generalInfo.establishmentName}"\n\nيمكنك فتح Google Sheets للتحقق من البيانات.`);
+                        resetForm();
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert(`❌ فشل الإرسال: ${error.message}\n\nيرجى:\n1. التحقق من اتصال الإنترنت\n2. التأكد من نشر التطبيق كـ Web App\n3. المحاولة مرة أخرى`);
+                })
+                .finally(() => {
+                    // استعادة حالة الزر
+                    submitBtn.innerHTML = originalBtnText;
+                    submitBtn.disabled = false;
+                });
+                
+            } catch (error) {
+                console.error("Form Error:", error);
+                alert(`❌ خطأ في تجميع البيانات: ${error.message}`);
+                submitBtn.innerHTML = originalBtnText;
+                submitBtn.disabled = false;
+            }
         }
 
         // إعادة تعيين النموذج
@@ -2253,6 +2426,8 @@
                         if (element.id === 'workDays') {
                             element.value = '5';
                         } else if (element.classList.contains('workforce-input') || element.classList.contains('service-workers')) {
+                            element.value = '0';
+                        } else if (element.classList.contains('quantity-input')) {
                             element.value = '0';
                         } else {
                             element.value = '';
@@ -2296,13 +2471,17 @@
                 populateCleaningTable('cleaningMaterialsTable', cleaningMaterials);
                 populateCleaningTable('cleaningEquipmentTable', cleaningEquipment);
                 
-                // إعادة تعيين جداول البوفيه
-                document.querySelector('#buffetToolsTable tbody').innerHTML = '';
-                document.querySelector('#buffetMaterialsTable tbody').innerHTML = '';
-                document.querySelector('#buffetEquipmentTable tbody').innerHTML = '';
-                addInitialBuffetRow('buffetToolsTable');
-                addInitialBuffetRow('buffetMaterialsTable');
-                addInitialBuffetRow('buffetEquipmentTable');
+                // إعادة تعيين جداول البوفيه والواجهات
+                ['buffetToolsTable', 'buffetMaterialsTable', 'buffetEquipmentTable', 
+                 'facadeMaterialsTable', 'facadeEquipmentTable'].forEach(tableId => {
+                    const tableBody = document.querySelector(`#${tableId} tbody`);
+                    tableBody.innerHTML = '';
+                    if (tableId.includes('buffet')) {
+                        addInitialBuffetRow(tableId);
+                    } else if (tableId.includes('facade')) {
+                        addInitialFacadeRow(tableId);
+                    }
+                });
                 
                 // إعادة تعيين صفوف الخدمات في الورديات
                 document.querySelectorAll('.service-rows').forEach(container => {
@@ -2336,161 +2515,11 @@
                 
                 // تحديث الإحصائيات
                 updateWorkforceStats();
-                
-                alert('تم إعادة تعيين النموذج بنجاح');
             }
         }
 
-function submitForm() {
-  const submitBtn = document.getElementById('submitForm');
-  const originalBtnText = submitBtn.innerHTML;
-  
-  // Show loading state
-  submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الإرسال...';
-  submitBtn.disabled = true;
-  
-  try {
-    // 1. تجميع البيانات من النموذج
-    const formData = {
-      generalInfo: {
-        establishmentName: document.getElementById('establishmentName').value || "غير محدد",
-        establishmentAddress: document.getElementById('establishmentAddress').value || "",
-        responsiblePerson: document.getElementById('responsiblePerson').value || "",
-        responsiblePhone: document.getElementById('responsiblePhone').value || "",
-        inspectorName: document.getElementById('inspectorName').value || "",
-        inspectionDate: document.getElementById('autoDate').textContent,
-        location: document.getElementById('autoLocation').textContent
-      },
-      schedule: {
-        workDays: document.getElementById('workDays').value || 1,
-        totalWorkforce: document.getElementById('totalWorkforce').textContent || "0",
-        morningShift: { workforce: getShiftWorkforce('morning') },
-        eveningShift: { workforce: getShiftWorkforce('evening') },
-        nightShift: { workforce: getShiftWorkforce('night') }
-      },
-      services: collectServicesData()
-    };
-    
-    console.log("Form Data Prepared:", formData);
-    
-    // 2. رابط Google Apps Script - ضع الرابط الحقيقي هنا
-    const scriptURL = 'https://script.google.com/macros/s/AKfycby7zTL4yb1VsHF8zK8gqY41m_KifABMziky9RIvIJBrFDWPpGDvYAR0vPI0doNAMviv/exec';
-    
-    // 3. إرسال البيانات
-    fetch(scriptURL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(formData),
-      redirect: 'follow' // Important for Google Apps Script
-    })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      return response.text(); // Use text() instead of json()
-    })
-    .then(result => {
-      console.log("Server Response:", result);
-      
-      try {
-        const data = JSON.parse(result);
-        if (data.success) {
-          alert(`✅ تم إرسال المعاينة بنجاح!\n\nتم إنشاء ورقة جديدة باسم: "${formData.generalInfo.establishmentName}"\n\nرقم المعاينة: EPS-${new Date().getTime()}`);
-          resetForm();
-        } else {
-          alert(`⚠️ حدث خطأ: ${data.message || 'غير معروف'}`);
-        }
-      } catch (e) {
-        // If response is not JSON, assume success
-        alert(`✅ تم إرسال المعاينة بنجاح!\n\nتم إنشاء ورقة جديدة باسم: "${formData.generalInfo.establishmentName}"`);
-        resetForm();
-      }
-    })
-    .catch(error => {
-      console.error('Error:', error);
-      alert(`❌ فشل الإرسال: ${error.message}\n\nيرجى:\n1. التحقق من اتصال الإنترنت\n2. التأكد من نشر التطبيق كـ Web App\n3. المحاولة مرة أخرى`);
-    })
-    .finally(() => {
-      // Restore button
-      submitBtn.innerHTML = originalBtnText;
-      submitBtn.disabled = false;
-    });
-    
-  } catch (error) {
-    console.error("Form Error:", error);
-    alert(`❌ خطأ في تجميع البيانات: ${error.message}`);
-    submitBtn.innerHTML = originalBtnText;
-    submitBtn.disabled = false;
-  }
-}
-
-// دالة تجميع بيانات الخدمات
-function collectServicesData() {
-  let services = {};
-  
-  // تنظيف - Collect cleaning data
-  const cleaningSelected = document.getElementById('cleaningItems')?.classList.contains('active');
-  if (cleaningSelected) {
-    services.cleaning = {
-      type: 'cleaning',
-      days: document.getElementById('cleaningDays')?.value || 1,
-      materials: getTableData('cleaningMaterialsTable'),
-      tools: getTableData('cleaningToolsTable'),
-      equipment: getTableData('cleaningEquipmentTable')
-    };
-  }
-  
-  // بوفيه - Collect buffet data
-  const buffetSelected = document.getElementById('buffetItems')?.classList.contains('active');
-  if (buffetSelected) {
-    services.buffet = {
-      type: 'buffet',
-      materials: getTableData('buffetMaterialsTable'),
-      tools: getTableData('buffetToolsTable'),
-      equipment: getTableData('buffetEquipmentTable')
-    };
-  }
-  
-  // واجهات - Collect facades data
-  const facadesSelected = document.getElementById('facadeService')?.classList.contains('active');
-  if (facadesSelected) {
-    services.facades = {
-      type: 'facades',
-      description: document.getElementById('facadesDescription')?.value || "",
-      materials: getTableData('facadeMaterialsList'),
-      equipment: getTableData('facadeEquipList')
-    };
-  }
-  
-  return services;
-}
-
-// دالة لاستخراج بيانات الجدول
-function getTableData(tableId) {
-  const items = [];
-  const table = document.getElementById(tableId);
-  if (!table) return items;
-  
-  const rows = table.querySelectorAll('tr');
-  
-  rows.forEach(row => {
-    const inputs = row.querySelectorAll('input, select');
-    if (inputs.length >= 3) {
-      const name = inputs[0]?.value?.trim();
-      const qty = parseFloat(inputs[1]?.value);
-      const unit = inputs[2]?.value?.trim() || "عدد";
-      
-      if (name && qty > 0) {
-        items.push({
-          name: name,
-          qty: qty,
-          unit: unit
-        });
-      }
-    }
-  });
-  
-  return items;
-}
+        // تحديث إحصائيات العمالة عند التحميل
+        updateWorkforceStats();
+    </script>
+</body>
+</html>
