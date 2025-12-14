@@ -2341,61 +2341,283 @@
             }
         }
 
-// إرسال النموذج
-        function submitForm() {
-            // حفظ بيانات الخدمة الحالية
-            saveServiceData();
-            // التحقق من اختيار خدمة واحدة على الأقل
-            if (Object.keys(serviceData).length === 0) {
-                alert('يرجى اختيار خدمة واحدة على الأقل');
-                return;
+// دالة مساعدة لسحب البيانات من جداول البنود (خامات، أدوات، معدات)
+        // تفترض أن الجدول يحتوي على صفوف بها inputs
+        function getTableItems(containerId) {
+            const items = [];
+            const container = document.getElementById(containerId);
+            if (!container) return [];
+
+            // البحث عن جميع الصفوف التي تحتوي على بيانات
+            // ملاحظة: هذا يعتمد على هيكل HTML الخاص بك، سنبحث عن أي صف فيه input للعدد
+            const rows = container.querySelectorAll('.item-row, tr'); 
+            
+            rows.forEach(row => {
+                // محاولة العثور على الاسم والعدد والوحدة
+                // الاسم قد يكون نصاً عادياً أو input
+                let nameElement = row.querySelector('.item-name, td:first-child'); 
+                let name = "";
+                if (nameElement) {
+                    name = nameElement.value || nameElement.textContent || nameElement.innerText;
+                }
+
+                // العدد
+                let qtyInput = row.querySelector('input[type="number"], .item-qty');
+                let qty = qtyInput ? parseFloat(qtyInput.value) : 0;
+
+                // الوحدة
+                let unitInput = row.querySelector('.item-unit');
+                let unit = unitInput ? (unitInput.value || unitInput.textContent) : "عدد";
+
+                // الملاحظات (اختياري)
+                let noteInput = row.querySelector('.item-note');
+                let notes = noteInput ? noteInput.value : "";
+
+                // إذا كان هناك عدد أكبر من صفر، نضيف الصنف
+                if (qty > 0 && name.trim() !== "") {
+                    items.push({
+                        name: name.trim(),
+                        qty: qty,
+                        unit: unit,
+                        notes: notes
+                    });
+                }
+            });
+            return items;
+        }
+
+        // دالة تجميع بيانات الخدمات (تعديل جذري)
+        function collectServicesData() {
+            let services = {};
+
+            // 1. تجميع بيانات النظافة (Cleaning)
+            // نفحص هل قسم النظافة مفعل أم لا (يمكنك تعديل الشرط حسب طريقة تفعليلك للخدمة)
+            // هنا سنفترض أننا نجمع البيانات إذا كانت موجودة
+            const cleaningMaterials = getTableItems('cleaningMaterialsTable'); // تأكد من وجود ID للجدول في HTML
+            const cleaningTools = getTableItems('cleaningToolsTable');
+            const cleaningEquipment = getTableItems('cleaningEquipmentTable');
+            
+            // إذا وجدنا أي بيانات للنظافة، نضيفها
+            if (cleaningMaterials.length > 0 || cleaningTools.length > 0 || cleaningEquipment.length > 0 || document.getElementById('cleaningDays')) {
+                services['cleaning'] = {
+                    type: 'cleaning',
+                    days: document.getElementById('cleaningDays') ? document.getElementById('cleaningDays').value : "",
+                    materials: cleaningMaterials,
+                    tools: cleaningTools,
+                    equipment: cleaningEquipment
+                };
             }
 
-            // تغيير نص الزر ليدل على التحميل
-            const submitBtn = document.getElementById('submitForm');
-            const originalBtnText = submitBtn.innerHTML;
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الإرسال...';
-            submitBtn.disabled = true;
+            // 2. تجميع بيانات البوفيه (Buffet)
+            const buffetMaterials = getTableItems('buffetMaterialsTable');
+            const buffetTools = getTableItems('buffetToolsTable');
+            const buffetEquipment = getTableItems('buffetEquipmentTable');
+
+            if (buffetMaterials.length > 0 || buffetTools.length > 0 || buffetEquipment.length > 0) {
+                services['buffet'] = {
+                    type: 'buffet',
+                    materials: buffetMaterials,
+                    tools: buffetTools,
+                    equipment: buffetEquipment
+                };
+            }
+
+            // 3. تجميع بيانات الواجهات (Facades)
+            // الواجهات عادة ليس لها خامات بوفيه، بل معدات رفع وخامات نظافة
+            const facadesEquipment = getTableItems('facadesEquipmentTable');
+            const facadesMaterials = getTableItems('facadesMaterialsTable');
             
-            // جمع البيانات من النموذج
-            const formData = {
-                generalInfo: {
-                    establishmentName: document.getElementById('establishmentName').value,
-                    establishmentAddress: document.getElementById('establishmentAddress').value,
-                    responsiblePerson: document.getElementById('responsiblePerson').value,
-                    responsiblePhone: document.getElementById('responsiblePhone').value,
-                    inspectorName: document.getElementById('inspectorName').value,
-                    inspectionDate: document.getElementById('autoDate').textContent,
-                    location: document.getElementById('autoLocation').textContent
-                },
-                schedule: {
-                    workDays: parseInt(document.getElementById('workDays').value) || 5,
-                    meal: selectedMeal,
-                    transportation: selectedTransportation,
-                    morningShift: {
-                        start: document.getElementById('morningStart').value,
-                        end: document.getElementById('morningEnd').value,
-                        workforce: getShiftWorkforce('morning'),
-                        services: getShiftServices('morning')
-                    },
-                    eveningShift: {
-                        start: document.getElementById('eveningStart').value,
-                        end: document.getElementById('eveningEnd').value,
-                        workforce: getShiftWorkforce('evening'),
-                        services: getShiftServices('evening')
-                    },
-                    nightShift: {
-                        start: document.getElementById('nightStart').value,
-                        end: document.getElementById('nightEnd').value,
-                        workforce: getShiftWorkforce('night'),
-                        services: getShiftServices('night')
-                    },
-                    totalWorkforce: parseInt(document.getElementById('totalWorkforce').textContent) || 0,
-                    genderRatio: document.getElementById('genderRatio').textContent,
-                    alternateRest: document.getElementById('alternateRestField').classList.contains('active') ? parseInt(document.getElementById('alternateRestValue').textContent) || 0 : 0
-                },
-                services: serviceData
-            };
+            if (facadesEquipment.length > 0 || facadesMaterials.length > 0 || document.getElementById('facadesArea')) {
+                 services['facades'] = {
+                    type: 'facades',
+                    description: document.getElementById('facadesDescription') ? document.getElementById('facadesDescription').value : "",
+                    materials: facadesMaterials,
+                    equipment: facadesEquipment
+                };
+            }
+
+            // 4. باقي الخدمات (تعتمد على الوصف فقط غالباً)
+            // يمكنك إضافة منطق مشابه للخدمات الأخرى هنا
+
+            return services;
+        }
+
+function submitForm() {
+  const submitBtn = document.getElementById('submitForm');
+  const originalBtnText = submitBtn.innerHTML;
+  
+  // Show loading state
+  submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الإرسال...';
+  submitBtn.disabled = true;
+  
+  try {
+    // 1. تجميع البيانات من النموذج
+    const formData = {
+      generalInfo: {
+        establishmentName: document.getElementById('establishmentName').value || "غير محدد",
+        establishmentAddress: document.getElementById('establishmentAddress').value || "",
+        responsiblePerson: document.getElementById('responsiblePerson').value || "",
+        responsiblePhone: document.getElementById('responsiblePhone').value || "",
+        inspectorName: document.getElementById('inspectorName').value || "",
+        inspectionDate: document.getElementById('autoDate').textContent,
+        location: document.getElementById('autoLocation').textContent
+      },
+      schedule: {
+        workDays: document.getElementById('workDays').value || 1,
+        totalWorkforce: document.getElementById('totalWorkforce').textContent || "0",
+        morningShift: { workforce: getShiftWorkforce('morning') },
+        eveningShift: { workforce: getShiftWorkforce('evening') },
+        nightShift: { workforce: getShiftWorkforce('night') }
+      },
+      services: collectServicesData()
+    };
+    
+    console.log("Form Data Prepared:", formData);
+    
+    // 2. رابط Google Apps Script - ضع الرابط الحقيقي هنا
+    const scriptURL = 'https://script.google.com/macros/s/AKfycby7zTL4yb1VsHF8zK8gqY41m_KifABMziky9RIvIJBrFDWPpGDvYAR0vPI0doNAMviv/exec';
+    
+    // 3. إرسال البيانات
+    fetch(scriptURL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formData),
+      redirect: 'follow' // Important for Google Apps Script
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.text(); // Use text() instead of json()
+    })
+    .then(result => {
+      console.log("Server Response:", result);
+      
+      try {
+        const data = JSON.parse(result);
+        if (data.success) {
+          alert(`✅ تم إرسال المعاينة بنجاح!\n\nتم إنشاء ورقة جديدة باسم: "${formData.generalInfo.establishmentName}"\n\nرقم المعاينة: EPS-${new Date().getTime()}`);
+          resetForm();
+        } else {
+          alert(`⚠️ حدث خطأ: ${data.message || 'غير معروف'}`);
+        }
+      } catch (e) {
+        // If response is not JSON, assume success
+        alert(`✅ تم إرسال المعاينة بنجاح!\n\nتم إنشاء ورقة جديدة باسم: "${formData.generalInfo.establishmentName}"`);
+        resetForm();
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      alert(`❌ فشل الإرسال: ${error.message}\n\nيرجى:\n1. التحقق من اتصال الإنترنت\n2. التأكد من نشر التطبيق كـ Web App\n3. المحاولة مرة أخرى`);
+    })
+    .finally(() => {
+      // Restore button
+      submitBtn.innerHTML = originalBtnText;
+      submitBtn.disabled = false;
+    });
+    
+  } catch (error) {
+    console.error("Form Error:", error);
+    alert(`❌ خطأ في تجميع البيانات: ${error.message}`);
+    submitBtn.innerHTML = originalBtnText;
+    submitBtn.disabled = false;
+  }
+}
+
+// دالة تجميع بيانات الخدمات
+function collectServicesData() {
+  let services = {};
+  
+  // تنظيف - Collect cleaning data
+  const cleaningSelected = document.getElementById('cleaningItems')?.classList.contains('active');
+  if (cleaningSelected) {
+    services.cleaning = {
+      type: 'cleaning',
+      days: document.getElementById('cleaningDays')?.value || 1,
+      materials: getTableData('cleaningMaterialsTable'),
+      tools: getTableData('cleaningToolsTable'),
+      equipment: getTableData('cleaningEquipmentTable')
+    };
+  }
+  
+  // بوفيه - Collect buffet data
+  const buffetSelected = document.getElementById('buffetItems')?.classList.contains('active');
+  if (buffetSelected) {
+    services.buffet = {
+      type: 'buffet',
+      materials: getTableData('buffetMaterialsTable'),
+      tools: getTableData('buffetToolsTable'),
+      equipment: getTableData('buffetEquipmentTable')
+    };
+  }
+  
+  // واجهات - Collect facades data
+  const facadesSelected = document.getElementById('facadeService')?.classList.contains('active');
+  if (facadesSelected) {
+    services.facades = {
+      type: 'facades',
+      description: document.getElementById('facadesDescription')?.value || "",
+      materials: getTableData('facadeMaterialsList'),
+      equipment: getTableData('facadeEquipList')
+    };
+  }
+  
+  return services;
+}
+
+// دالة لاستخراج بيانات الجدول
+function getTableData(tableId) {
+  const items = [];
+  const table = document.getElementById(tableId);
+  if (!table) return items;
+  
+  const rows = table.querySelectorAll('tr');
+  
+  rows.forEach(row => {
+    const inputs = row.querySelectorAll('input, select');
+    if (inputs.length >= 3) {
+      const name = inputs[0]?.value?.trim();
+      const qty = parseFloat(inputs[1]?.value);
+      const unit = inputs[2]?.value?.trim() || "عدد";
+      
+      if (name && qty > 0) {
+        items.push({
+          name: name,
+          qty: qty,
+          unit: unit
+        });
+      }
+    }
+  });
+  
+  return items;
+}
+
+            // رابط Google Apps Script الخاص بك
+            const scriptURL = 'https://script.google.com/macros/s/AKfycbxSWUm54xaP6ZqMbr0LHZ-ABspMVWWikc_ziQVelmfrZgi0M87QMgLVmmoJ5h325MZa/exec';
+
+            fetch(scriptURL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                body: JSON.stringify(formData)
+            })
+            .then(() => {
+                alert(`تم إرسال المعاينة بنجاح!\nوتم تسجيل البنود التفصيلية للمنشأة: ${formData.generalInfo.establishmentName}`);
+                submitBtn.innerHTML = originalBtnText;
+                submitBtn.disabled = false;
+                // resetForm(); // تفعيل هذا السطر إذا أردت مسح النموذج بعد الإرسال
+            })
+            .catch(error => {
+                console.error('Error!', error.message);
+                alert('حدث خطأ. تأكد من الإنترنت.');
+                submitBtn.innerHTML = originalBtnText;
+                submitBtn.disabled = false;
+            });
+        }
 
             // ------------------------------------------
             // رابط جوجل سكربت (ضعه هنا)
